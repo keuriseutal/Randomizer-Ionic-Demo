@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-navbar color="dark" class="navbar">
+    <ion-title>Randomizer</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="content">
+  <div padding>
+    <ion-segment [(ngModel)]="userSelect" color="light">
+      <ion-segment-button value="8ball"> 8 Ball </ion-segment-button>
+      <ion-segment-button value="dice"> Dice </ion-segment-button>
+      <ion-segment-button value="custom"> Custom </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="userSelect">
+    <ion-list *ngSwitchCase="'8ball'">
+      <div
+        class="ball"
+        item-start
+        (click)="move(true, '')"
+        *ngIf="!isMoving && !isShowAnswer"
+      >
+        <div class="ball-label">8</div>
+      </div>
+      <div
+        class="move-ball"
+        item-start
+        (click)="move(false, 'show-answer')"
+        *ngIf="isMoving"
+      >
+        <div class="ball-label">8</div>
+      </div>
+
+      <div
+        class="show-answer"
+        item-start
+        (click)="move(false, 'hide-answer')"
+        *ngIf="!isMoving && isShowAnswer"
+      >
+        <div class="answer-display">
+          <span>{{ answer }}</span>
+        </div>
+      </div>
+      <div class="instructions" *ngIf="!isMoving && !isShowAnswer">
+        Tap the ball to shake!
+      </div>
+      <div class="instructions" *ngIf="isMoving">Tap the ball to stop!</div>
+      <div class="instructions" *ngIf="!isMoving && isShowAnswer">
+        Tap the ball to try again!
+      </div>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'dice'">
+      <div item-start>
+        <img src="assets/imgs/1.svg" *ngIf="number == 1" />
+        <img src="assets/imgs/2.svg" *ngIf="number == 2" />
+        <img src="assets/imgs/3.svg" *ngIf="number == 3" />
+        <img src="assets/imgs/4.svg" *ngIf="number == 4" />
+        <img src="assets/imgs/5.svg" *ngIf="number == 5" />
+        <img src="assets/imgs/6.svg" *ngIf="number == 6" />
+      </div>
+
+      <div class="instructions" *ngIf="!isRolling" (click)="checkIfRolling()">
+        Tap me to roll!
+      </div>
+      <div class="instructions" *ngIf="isRolling" (click)="checkIfRolling()">
+        Tap me to stop!
+      </div>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'custom'">
+      <div item-start>
+        <ion-label color="light" stacked style="text-align:center">Enter values to randomize</ion-label>
+        <ion-textarea style="text-align: center !important; color: white;" (input)="addToList(input.value)" #input
+        placeholder="Separate value with a comma"></ion-textarea>
+      </div>
+      <div class="instructions" >
+        {{output}}
+      </div>
+
+      <div class="instructions" (click)="randomize()" *ngIf="inputs.includes(',')">
+          Tap me to randomize!
+      </div>
+      
+    </ion-list>
+  </div>
+</ion-content>
