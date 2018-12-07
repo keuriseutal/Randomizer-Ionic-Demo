@@ -6,7 +6,7 @@ import { NavController } from "ionic-angular";
   templateUrl: "home.html"
 })
 export class HomePage {
-  userSelect: string = "custom";
+  userSelect: string = "8ball";
 
   //for 8 ball
   isMoving: boolean = false;
@@ -75,7 +75,7 @@ export class HomePage {
 
   randomize(){
     this.inputArray = this.inputs.split(",");
-    let index = Math.floor(Math.random() * this.inputArray.length) + 1;
+    let index = Math.floor(Math.random() * this.inputArray.length);
     this.output = this.inputArray[index];
   }
 
